@@ -2,6 +2,14 @@
     <h1>Employee Form</h1>
 </div>
 <form [formGroup]="empForm" (ngSubmit)="onFormSubmit()">
+
+    <div  >
+      
+        <mat-spinner *ngIf="showSpinner" diameter="100" color="primary"
+         style="position: fixed; top: 50%; left: 50%; margin-top: -25px; margin-left: -25px;"></mat-spinner>
+    </div>
+
+
     <div mat-dialog-content class="content">
         <div class="row">
             <mat-form-field appearance="outline">
@@ -88,6 +96,12 @@
     </div>
     <div mat-dialog-actions class="action">
         <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-        <button mat-raised-button color="primary"  [disabled]="empForm.invalid" type="submit">{{data ? 'Update': 'Save'}}</button>
+        <button id="miBoton" mat-raised-button color="primary"  [disabled]="empForm.invalid" type="submit">{{data ? 'Update': 'Save'}}
+           
+        </button>
     </div>
+
+   
+
+
 </form>

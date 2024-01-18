@@ -5,11 +5,15 @@ import { CoreService } from '../core/core.service';
 import { EmployeeService } from '../services/employee.service';
 import { Education } from '../shared/models/education';
 import { Company } from '../shared/models/company';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { timer } from 'rxjs';
+
+const observable = timer (3000);
 
 @Component({
   selector: 'app-emp-add-edit',
   templateUrl: './emp-add-edit.component.html',
-  styleUrls: ['./emp-add-edit.component.scss'],
+  styleUrls: ['./emp-add-edit.component.scss']
 })
 
 
@@ -19,6 +23,11 @@ export class EmpAddEditComponent implements OnInit {
   education: Education[] = [];
 
   company: Company[] = [];
+
+  showSpinner = false;
+
+
+  
 
   constructor(
     private _fb: FormBuilder,
@@ -53,22 +62,37 @@ export class EmpAddEditComponent implements OnInit {
   onFormSubmit() {
     if (this.empForm.valid) {
       if (this.data) {
+        this.showSpinner =  true;
+        let boton = <HTMLButtonElement> document.getElementById('miBoton');
+        boton.disabled = true; // el botón está deshabilitado
         this._empService
           .updateEmployee(this.data.id, this.empForm.value)
           .subscribe({
             next: (val: any) => {
-              this._coreService.openSnackBar('Employee detail updated!');
-              this._dialogRef.close(true);
+              observable.subscribe (x => {
+                this.showSpinner = false;
+                this._dialogRef.close(true);
+                this._coreService.openSnackBar('Employee detail updated!');
+              });
+
+             
             },
             error: (err: any) => {
               console.error(err);
+              this.showSpinner = false;
             },
           });
       } else {
         this._empService.addEmployee(this.empForm.value).subscribe({
           next: (val: any) => {
-            this._coreService.openSnackBar('Employee added successfully');
-            this._dialogRef.close(true);
+            this.showSpinner =  true;
+            let boton = <HTMLButtonElement> document.getElementById('miBoton');
+            boton.disabled = true; // el botón está deshabilitado
+            observable.subscribe (x => {
+              this.showSpinner = false;
+              this._dialogRef.close(true);
+              this._coreService.openSnackBar('Employee detail Add');
+            });
           },
           error: (err: any) => {
             console.error(err);

@@ -10,6 +10,10 @@ import { PopupEmpComponent } from './popup-emp/popup-emp/popup-emp.component';
 import { EmpDetailsComponent } from './emp-details/emp-details/emp-details.component';
 import { Company } from './shared/models/company';
 import { Education } from './shared/models/education';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { timer } from 'rxjs';
+
+const observable = timer (3000);
 
 @Component({
   selector: 'app-root',
@@ -32,7 +36,7 @@ export class AppComponent implements OnInit {
   ];
   dataSource!: MatTableDataSource<any>;
 
-
+  showSpinner = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -80,10 +84,18 @@ export class AppComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
+    this.showSpinner =  true;
     this._empService.deleteEmployee(id).subscribe({
       next: (res) => {
-        this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
+
+        observable.subscribe (x => {
+          this.showSpinner = false;
+          this._coreService.openSnackBar('Employee deleted!', 'done');
+          this.getEmployeeList();
+        });
+
+
+       
       },
       error: console.log,
     });

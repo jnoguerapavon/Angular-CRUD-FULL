@@ -23,7 +23,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PopupEmpComponent } from './popup-emp/popup-emp/popup-emp.component';
 import { EmpDetailsComponent } from './emp-details/emp-details/emp-details.component';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent, EmpAddEditComponent, PopupEmpComponent, EmpDetailsComponent],
@@ -47,6 +47,7 @@ import { EmpDetailsComponent } from './emp-details/emp-details/emp-details.compo
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

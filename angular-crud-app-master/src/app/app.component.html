@@ -16,6 +16,13 @@
   </mat-form-field>
 
   <div class="table-container">
+
+    <div  >
+      <mat-spinner *ngIf="showSpinner" diameter="100" color="primary"
+       style="position: fixed; top: 50%; left: 50%; margin-top: -25px; margin-left: -25px;"></mat-spinner>
+  </div>
+
+
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 demo-table">
 
       <!-- ID Column -->
